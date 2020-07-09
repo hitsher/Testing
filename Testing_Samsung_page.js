@@ -26,13 +26,16 @@ describe('Check samsung page', function() {
     it('check Galaxy Book text in mobile tab', function() {
         cy.get('[an-la ="product marketing:im:galaxy book"]').click().should('contain','Galaxy Book');
         cy.get('.key-feature-tab__inner-wrap').eq(4).should('contain','The new Galaxy Book range');
-       
+        cy.get('.key-feature-tab__inner-wrap').eq(4).children().should('contain','Buy now');
+
     })
 
-    it('check tabs LOOP', function() {
-        cy.get('[an-la ="product marketing:im:galaxy book"]').click().should('contain','Galaxy Book');
-        cy.get('.key-feature-tab__inner-wrap').eq(4).should('contain','The new Galaxy Book range');
+    // it('check tabs LOOP', function() {
+    //     cy.get('.key-feature-tab__slide').each((element) =>{
+    //         //should.have('.cta');
+    //         element.should('have.class', 'cta')
+    //     })
        
-    })
+    // })
 
 })
