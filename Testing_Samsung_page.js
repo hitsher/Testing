@@ -1,13 +1,12 @@
 describe('Check samsung page', function() {
     it('open browser and check status', function() {
     cy.visit('https://www.samsung.com/uk')
-    cy.server().should((server) => {
-        expect(server.delay).to.eq(0)
-        expect(server.method).to.eq('GET')
-        expect(server.status).to.eq(200)
+    //cy.server().should((server) => {
+      //  expect(server.delay).to.eq(0)
+       // expect(server.method).to.eq('GET')
+       // expect(server.status).to.eq(200)
+   // })
     })
-    })
-
     // it('check broken links', function() {
     //     cy.get( '[an-la ="product marketing:im:galaxy z flip:galaxy z flip:learn more"]').click()
     //     cy.server().should((server) => {
@@ -17,25 +16,20 @@ describe('Check samsung page', function() {
     //     })
     //     cy.visit('https://www.samsung.com/uk')
     // })
-
     // it('check images', function() {
     //     cy.get('.image').should('be.visible');
-       
     // })
-
     it('check Galaxy Book text in mobile tab', function() {
         cy.get('[an-la ="product marketing:im:galaxy book"]').click().should('contain','Galaxy Book');
         cy.get('.key-feature-tab__inner-wrap').eq(4).should('contain','The new Galaxy Book range');
-        cy.get('.key-feature-tab__inner-wrap').eq(4).children().should('contain','Buy now');
-
+        //cy.get('.key-feature-tab__inner-wrap').eq(4).children().should('contain','Buy now');
+       // cy.get('.key-feature-tab__cta-wrap').eq(4).should('have.class','cta');
     })
-
-    // it('check tabs LOOP', function() {
-    //     cy.get('.key-feature-tab__slide').each((element) =>{
-    //         //should.have('.cta');
-    //         element.should('have.class', 'cta')
-    //     })
-       
-    // })
-
+    it('check tabs LOOP', function() {
+        cy.get('.key-feature-tab__cta-wrap').each(function(element, index){
+            //console.log(element, index)
+            //expect(element).to.have.children.class('cta');
+            cy.get(element).children().should('have.class','cta');
+          })
+    })
 })
