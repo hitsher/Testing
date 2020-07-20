@@ -27,7 +27,6 @@ describe('Check samsung page', function() {
     //     })
     //     cy.visit('https://www.samsung.com/uk')
     // })
-
     it('check images', function() {
         cy.get('.image').should('be.visible');
     })
@@ -49,11 +48,15 @@ describe('Check samsung page', function() {
     //         cy.get(element).should('contain','Mobile');
     //       })
     // })
-
+    
     it('check search bar', function() {
         cy.get('.ho-g-home-search')
             .should('exist')
             .prev('.cm-g-text-block-container').should('contain','Looking for something else?') 
-
-    })
+        cy.get('#home-page-search')
+            .type('Samsung')
+            .should('have.value', 'Samsung') 
+            .clear()
+            .should('have.value', '')
+     })
 })
