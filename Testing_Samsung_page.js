@@ -52,12 +52,26 @@ describe('Check samsung page', function() {
     })
 
        it('check all content in all tabs', function() {
+        cy.get('.ho-g-key-feature-tab').and('have.length', 3).each(function(element){
+      
+            cy.get(element).find('.key-feature-tab__title').invoke('text').should('match', /\w/)  
+     
+            cy.get(element).find('.tab__item').each(function(li){
+                const text = li.text()
+                cy.log(text);
+                expect(text).to.match(/\w/);    
+                cy.get(li).find('button').click().wait(400);
+                cy.get(li).should('have.class', 'tab__item--active'); 
+            })
+        })
+    })
+
+    it('check all content in all tabs', function() {
         cy.get('.key-feature-tab__title').and('have.length', 3).each(function(element){
       
           const text = element.text()
           expect(text).to.match(/\w/);
           expect(element).to.have.css('line-height', '31.6667px');
-
 
         })
     })
