@@ -9,17 +9,23 @@ describe('Check samsung page', function() {
    })
 })
 it('checks content in Offer area', function() {
+    cy.get('.ho-g-showcase-card-tab').should('exist');
     cy.get('.ho-g-showcase-card-tab').and('have.length', 1);
   //  cy.get('.ho-g-showcase-card-tab').prev('cm-g-text-block-container').find('text-block-container__headline').should('contain','Latest Deals');
-  cy.get('.ho-g-showcase-card-tab').find('.tab__item').each(function(li){
+    cy.get('.ho-g-showcase-card-tab').find('.tab__item').each(function(li){
     const text = li.find('.tab__item-title').text()
     expect(text).to.match(/\w/);    
     cy.get(li).find('button').dblclick().wait(500);
     cy.get(li).should('have.class', 'tab__item--active'); 
+    })
 
+    cy.get('.ho-g-showcase-card-tab').find('.showcase-card-tab-card__product-name').each(function(span){
+    const text = span.text()
+    expect(text).to.match(/\w/);    
+    }) 
 
-    
-})
+    const image = cy.get('.ho-g-showcase-card-tab').find('img')
+            image.should('be.visible');
 })
     it('checks if page have all elements', function() {
         cy.get('.gnb').should('exist');
@@ -59,15 +65,12 @@ it('checks content in Offer area', function() {
     //     cy.visit('https://www.samsung.com/uk')
     // })
     it('checks images', function() {
-        const image = cy.get('.image')
+        const image = cy.get('img')
             image.should('be.visible');
           //  image.should('have.attr', 'data-mobile-src', /images.samsung/)
            // expect(image).to.have.attr('alt', /\w/);
     })
-    it('checks Galaxy Book text in mobile tab', function() {
-        cy.get('[an-la ="product marketing:im:galaxy book"]').should('contain','Galaxy Book');
-        cy.get('.key-feature-tab__inner-wrap').eq(3).should('contain','The new Galaxy Book range');
-    })
+
     it('checks ctas in GBM area', function() {
         cy.get('.key-feature-tab__cta-wrap').each(function(element, index){
             cy.get(element).children().should('have.class','cta');
