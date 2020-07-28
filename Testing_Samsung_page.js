@@ -1,4 +1,8 @@
 /// <reference types="Cypress" />
+
+//<script type="text/javascript" src="./testing_Offer_area"></script>
+
+
 describe('Check samsung page', function() {
     it('opens browser and check status', function() {
     cy.visit('https://www.samsung.com/uk/')
@@ -8,25 +12,9 @@ describe('Check samsung page', function() {
        expect(server.status).to.eq(200)
    })
 })
-it('checks content in Offer area', function() {
-    cy.get('.ho-g-showcase-card-tab').should('exist');
-    cy.get('.ho-g-showcase-card-tab').and('have.length', 1);
-  //  cy.get('.ho-g-showcase-card-tab').prev('cm-g-text-block-container').find('text-block-container__headline').should('contain','Latest Deals');
-    cy.get('.ho-g-showcase-card-tab').find('.tab__item').each(function(li){
-    const text = li.find('.tab__item-title').text()
-    expect(text).to.match(/\w/);    
-    cy.get(li).find('button').dblclick().wait(500);
-    cy.get(li).should('have.class', 'tab__item--active'); 
-    })
 
-    cy.get('.ho-g-showcase-card-tab').find('.showcase-card-tab-card__product-name').each(function(span){
-    const text = span.text()
-    expect(text).to.match(/\w/);    
-    }) 
+//import Offer_section from './testing_Offer_area'
 
-    const image = cy.get('.ho-g-showcase-card-tab').find('img')
-            image.should('be.visible');
-})
     it('checks if page have all elements', function() {
         cy.get('.gnb').should('exist');
         cy.get('.home-kv-carousel__container').should('exist');
