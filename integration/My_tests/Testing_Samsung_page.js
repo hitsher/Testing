@@ -1,6 +1,11 @@
 /// <reference types="Cypress" />
 import OfferSection from '../../support/Offer_Section'
 import COVID_Banner from '../../support/COVID_Banner'
+import ExploreSection from '../../support/Explore_Section'
+import GBMSection from '../../support/GBM_Section'
+import SearchSection from '../../support/Search_Section'
+
+
 
 describe('Check samsung page', function() {
 
@@ -107,8 +112,10 @@ describe('Check samsung page', function() {
 
     context('GBM area', () => {
 
+        const gbmSection =new GBMSection();
+
         it('checks ctas in GBM area', function() {
-            cy.get('.key-feature-tab__cta-wrap').each(function(element, index){
+            gbmSection.getCTA().each(function(element, index){
                 cy.get(element).children().should('have.class','cta');
                 cy.log(index);
               })
@@ -133,11 +140,14 @@ describe('Check samsung page', function() {
     })
 
     context('Search area', () => {
+
+        const searchSection=new SearchSection();
+
         it('check search bar', function() {
-            cy.get('.ho-g-home-search')
+            searchSection.getComponent()
                 .should('exist')
                 .prev('.cm-g-text-block-container').should('contain','Looking for something else?') 
-            cy.get('#home-page-search')
+            searchSection.getInput()
                 .type('Samsung')
                 .should('have.value', 'Samsung') 
                 .clear()
@@ -146,8 +156,20 @@ describe('Check samsung page', function() {
     })
 
     context('Explore area', () => {
+
+        const exploreSection=new ExploreSection();
+
+        it('check if section exist', function() {
+            
+            exploreSection.getComponent().should('exist');
+
+        })
+
         it('check title', function() {
-           
+            
+          const text =  exploreSection.getTitle().text()
+            expect(text).to.match(/\w/);    
+
         })
     })
 })
