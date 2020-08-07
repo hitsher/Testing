@@ -144,4 +144,10 @@ describe('Check samsung page', function() {
                 .should('have.value', '')
         })
     })
+
+    context('Explore area', () => {
+        it('check title', function() {
+           
+        })
+    })
 })
