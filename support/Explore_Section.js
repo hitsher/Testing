@@ -1,10 +1,10 @@
 class ExploreSection {
     getComponent(){
-        return cy.get('ho-g-teaser-list');
+        return cy.get('.ho-g-teaser-list');
     }
   
     getTitle(){
-        return cy.get('ho-g-teaser-list').find('.teaser-list__desktop-title');
+        return cy.get('.ho-g-teaser-list').find('.teaser-list__desktop-title');
     }
 
     getCTA(){

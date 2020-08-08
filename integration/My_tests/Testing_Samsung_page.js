@@ -16,6 +16,8 @@ describe('Check samsung page', function() {
         expect(server.delay).to.eq(0)
         expect(server.method).to.eq('GET')
         expect(server.status).to.eq(200)
+        cy.visit('https://www.samsung.com/uk/')
+
         })
     })
 
@@ -76,14 +78,18 @@ describe('Check samsung page', function() {
             cy.get('.notice__cta').find('.cta')
                 .should('have.attr', 'title', 'LEARN MORE')
                 .and('have.attr', 'href', '/uk/covid-19-update/')
-                .click();
+               // .click();
 
+            })
+            
+            it('checks COVID page status', function() {
+            cy.request('https://www.samsung.com/uk/covid-19-update/')
             cy.server().should((server) => {
                 expect(server.delay).to.eq(0)
                 expect(server.method).to.eq('GET')
                 expect(server.status).to.eq(200)
             })
-            cy.go('back')
+            //cy.go('back')
         })
 
         it('checks visibility', function() {
