@@ -9,7 +9,7 @@ import SearchSection from '../../support/Search_Section'
 
 describe('Check samsung page', function() {
 
-    it('opens browser and check status', function() {
+    it('open browser and check status', function() {
 
         cy.visit('https://www.samsung.com/uk/')
         cy.server().should((server) => {
@@ -25,12 +25,12 @@ describe('Check samsung page', function() {
 
         const offerSection=new OfferSection();
 
-        it('checks if Offer area exist', function() {
+        it('check if Offer area exist', function() {
             offerSection.getComponent().should('exist').and('have.length', 1);
           //  cy.get('.ho-g-showcase-card-tab').prev('cm-g-text-block-container').find('text-block-container__headline').should('contain','Latest Deals');
         })
          
-        it('checks tab title', function() {
+        it('check tab title', function() {
             offerSection.getTitle().each(function(li){
                 const text = li.find('.tab__item-title').text()
                 expect(text).to.match(/\w/);    
@@ -39,20 +39,20 @@ describe('Check samsung page', function() {
             })
         })
         
-        it('checks content tab title', function() {
+        it('check content tab title', function() {
             offerSection.getProductsName().each(function(span){
                 const text = span.text()
                 expect(text).to.match(/\w/);          
             }) 
         }) 
         
-        it('checks images', function() {
+        it('check images', function() {
             const image = cy.get('.ho-g-showcase-card-tab').find('img')
                     image.should('be.visible');
         })
     })
 
-    it('checks if page have all elements', function() {
+    it('check if page have all elements', function() {
         cy.get('.gnb').should('exist');
         cy.get('.home-kv-carousel__container').should('exist');
         cy.get('.cm-g-text-block-container').should('exist');
@@ -67,14 +67,14 @@ describe('Check samsung page', function() {
 
         const covid_Banner=new COVID_Banner();
 
-        it('checks COVID banner', function() {
+        it('check COVID banner', function() {
             covid_Banner.getComponent().should('exist');
             covid_Banner.getText().each(function(span){
                 cy.get(span).should('have.text', 'LATEST COVID-19 UPDATE');
             })
         })
 
-        it('checks cta', function() {
+        it('check cta', function() {
             cy.get('.notice__cta').find('.cta')
                 .should('have.attr', 'title', 'LEARN MORE')
                 .and('have.attr', 'href', '/uk/covid-19-update/')
@@ -82,7 +82,7 @@ describe('Check samsung page', function() {
 
             })
             
-            it('checks COVID page status', function() {
+            it('check COVID page status', function() {
             cy.request('https://www.samsung.com/uk/covid-19-update/')
             cy.server().should((server) => {
                 expect(server.delay).to.eq(0)
@@ -92,7 +92,7 @@ describe('Check samsung page', function() {
             //cy.go('back')
         })
 
-        it('checks visibility', function() {
+        it('check visibility', function() {
             cy.get('.notice').should('be.visible').find('.notice__close').click()
             cy.get('.notice').should('not.be.visible')
             
@@ -109,7 +109,7 @@ describe('Check samsung page', function() {
     //     cy.visit('https://www.samsung.com/uk')
     // })
 
-    it('checks images', function() {
+    it('check images', function() {
         const image = cy.get('.image')
             image.should('be.visible');
           //  image.should('have.attr', 'data-mobile-src', /images.samsung/)
@@ -120,14 +120,14 @@ describe('Check samsung page', function() {
 
         const gbmSection =new GBMSection();
 
-        it('checks ctas in GBM area', function() {
+        it('check ctas in GBM area', function() {
             gbmSection.getCTA().each(function(element, index){
                 cy.get(element).children().should('have.class','cta');
                 cy.log(index);
               })
         })
         
-       it('checks content in GBM area', function() {
+       it('check content in GBM area', function() {
             cy.get('.ho-g-key-feature-tab').and('have.length', 3).each(function(element){
                 cy.get(element).find('.key-feature-tab__title').invoke('text').should('match', /\w/);
                 cy.get(element).find('.key-feature-tab__headline-inner').invoke('text').should('match', /\w/);
@@ -149,16 +149,34 @@ describe('Check samsung page', function() {
 
         const searchSection=new SearchSection();
 
-        it('check search bar', function() {
+        it('check if component exis', function() {
             searchSection.getComponent()
                 .should('exist')
                 .prev('.cm-g-text-block-container').should('contain','Looking for something else?') 
+        })
+
+        it('type and remove text', function() {
+   
             searchSection.getInput()
                 .type('Samsung')
                 .should('have.value', 'Samsung') 
                 .clear()
                 .should('have.value', '')
         })
+
+        // it('check search page', function() {
+        //     searchSection.getInput()
+        //         .type('Samsung{enter}')
+        //     searchSection.getComponent().find('form').submit({force: true})
+        //     cy.server().should((server) => {
+        //         expect(server.delay).to.eq(0)
+        //         expect(server.method).to.eq('GET')
+        //         expect(server.status).to.eq(200)
+        //     })
+        //     cy.title().should('eq', 'Search | Samsung UK' )
+
+        //     cy.go('back')
+        // })
     })
 
     context('Explore area', () => {
@@ -172,9 +190,12 @@ describe('Check samsung page', function() {
         })
 
         it('check title', function() {
+
+            cy.get('.ho-g-teaser-list').find('h2').invoke('text').should('match', /\w/);
+
+            //const text =  exploreSection.getTitle().text()
             
-          const text =  exploreSection.getTitle().text()
-            expect(text).to.match(/\w/);    
+            //expect(text).to.match(/\w/);    
 
         })
     })
