@@ -198,5 +198,14 @@ describe('Check samsung page', function() {
             //expect(text).to.match(/\w/);    
 
         })
+
+        it('check tabs', function() {
+            
+            
+            exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 3).each(function(element){
+                    cy.get(element).trigger('mouseover');
+                    cy.get(element).next().should('have.attr', 'aria-hidden', 'false')
+                }) 
+            }) 
     })
 })
