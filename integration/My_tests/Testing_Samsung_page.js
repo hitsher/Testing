@@ -6,7 +6,6 @@ import GBMSection from '../../support/GBM_Section'
 import SearchSection from '../../support/Search_Section'
 
 
-
 describe('Check samsung page', function() {
 
     it('open browser and check status', function() {
@@ -78,8 +77,6 @@ describe('Check samsung page', function() {
             cy.get('.notice__cta').find('.cta')
                 .should('have.attr', 'title', 'LEARN MORE')
                 .and('have.attr', 'href', '/uk/covid-19-update/')
-               // .click();
-
             })
             
             it('check COVID page status', function() {
@@ -89,7 +86,6 @@ describe('Check samsung page', function() {
                 expect(server.method).to.eq('GET')
                 expect(server.status).to.eq(200)
             })
-            //cy.go('back')
         })
 
         it('check visibility', function() {
@@ -151,8 +147,8 @@ describe('Check samsung page', function() {
 
         it('check if component exis', function() {
             searchSection.getComponent()
-                .should('exist')
-                .prev('.cm-g-text-block-container').should('contain','Looking for something else?') 
+                .should('exist').prev('.cm-g-text-block-container')
+                .should('contain','Looking for something else?') 
         })
 
         it('type and remove text', function() {
@@ -201,10 +197,15 @@ describe('Check samsung page', function() {
 
         it('check tabs', function() {
             
-            
-            exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 3).each(function(element){
+            exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 3).each(function(tab){
+                    cy.get(tab).as('alias')
+                    cy.get('@alias').trigger('mouseover');
+                    cy.get('@alias').next().should('have.attr', 'aria-hidden', 'false')
+
+                    cy.get(tab).then((element) => {
                     cy.get(element).trigger('mouseover');
                     cy.get(element).next().should('have.attr', 'aria-hidden', 'false')
+                    })
                 }) 
             }) 
     })
