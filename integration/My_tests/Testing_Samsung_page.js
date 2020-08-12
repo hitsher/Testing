@@ -8,29 +8,51 @@ import SearchSection from '../../support/Search_Section'
 
 describe('Check samsung page', function() {
 
-    it('open browser and check status', function() {
+    context('Basics', () => {
 
-        cy.visit('https://www.samsung.com/uk/')
-        cy.server().should((server) => {
-        expect(server.delay).to.eq(0)
-        expect(server.method).to.eq('GET')
-        expect(server.status).to.eq(200)
-        cy.visit('https://www.samsung.com/uk/')
+        it('open browser and check status', function() {
 
+            cy.visit('https://www.samsung.com/uk/')
+            cy.server().should((server) => {
+            expect(server.delay).to.eq(0)
+            expect(server.method).to.eq('GET')
+            expect(server.status).to.eq(200)
+            cy.visit('https://www.samsung.com/uk/')
+
+            })
+        })
+
+        it('check if page have all elements', function() {
+            cy.get('.gnb').should('exist');
+            cy.get('.home-kv-carousel__container').should('exist');
+            cy.get('.cm-g-text-block-container').should('exist');
+            cy.get('.ho-g-showcase-card-tab').should('exist');
+            cy.get('.ho-g-key-feature-tab').should('exist');
+            cy.get('.ho-g-teaser-list').should('exist');
+            cy.get('.ho-g-home-search').should('exist');
+            cy.get('.footer').should('exist');
+        })
+
+        it('check images', function() {
+
+            const image = cy.get('.image')
+                image.should('be.visible');
+              //  image.should('have.attr', 'data-mobile-src', /images.samsung/)
+               // expect(image).to.have.attr('alt', /\w/);
         })
     })
 
-    context('Offer area', () => {
+    context.skip('Offer area', () => {
 
         const offerSection=new OfferSection();
 
         it('check if Offer area exist', function() {
             offerSection.getComponent().should('exist').and('have.length', 1);
-          //  cy.get('.ho-g-showcase-card-tab').prev('cm-g-text-block-container').find('text-block-container__headline').should('contain','Latest Deals');
-        })
+                })
          
         it('check tab title', function() {
             offerSection.getTitle().each(function(li){
+
                 const text = li.find('.tab__item-title').text()
                 expect(text).to.match(/\w/);    
                 cy.get(li).find('button').dblclick().wait(500);
@@ -51,18 +73,7 @@ describe('Check samsung page', function() {
         })
     })
 
-    it('check if page have all elements', function() {
-        cy.get('.gnb').should('exist');
-        cy.get('.home-kv-carousel__container').should('exist');
-        cy.get('.cm-g-text-block-container').should('exist');
-        cy.get('.ho-g-showcase-card-tab').should('exist');
-        cy.get('.ho-g-key-feature-tab').should('exist');
-        cy.get('.ho-g-teaser-list').should('exist');
-        cy.get('.ho-g-home-search').should('exist');
-        cy.get('.footer').should('exist');
-    })
-
-    context('Banner area', () => {
+    context.skip('Banner area', () => {
 
         const covid_Banner=new COVID_Banner();
 
@@ -105,14 +116,7 @@ describe('Check samsung page', function() {
     //     cy.visit('https://www.samsung.com/uk')
     // })
 
-    it('check images', function() {
-        const image = cy.get('.image')
-            image.should('be.visible');
-          //  image.should('have.attr', 'data-mobile-src', /images.samsung/)
-           // expect(image).to.have.attr('alt', /\w/);
-    })
-
-    context('GBM area', () => {
+    context.skip('GBM area', () => {
 
         const gbmSection =new GBMSection();
 
@@ -182,25 +186,31 @@ describe('Check samsung page', function() {
         it('check if section exist', function() {
             
             exploreSection.getComponent().should('exist');
-
         })
 
         it('check title', function() {
 
-            cy.get('.ho-g-teaser-list').find('h2').invoke('text').should('match', /\w/);
+            exploreSection.getTitle().should('match', /\w/);
+          //  exploreSection.getButton().
+        //  const href = document.getElementsByClassName("teaser-list__title-button").href 
+        //  cy.log(href);
+        //  cy.log('href');
 
-            //const text =  exploreSection.getTitle().text()
-            
-            //expect(text).to.match(/\w/);    
-
+                cy.get('.teaser-list__title-button > a')
+                .should('have.attr', 'href')
+                .then((href) => {
+                    cy.log(href)         
+                    cy.visit('www.samsung.com'+href)
+         })
         })
 
         it('check tabs', function() {
             
             exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 3).each(function(tab){
-                    cy.get(tab).as('alias')
-                    cy.get('@alias').trigger('mouseover');
-                    cy.get('@alias').next().should('have.attr', 'aria-hidden', 'false')
+
+                    // cy.get(tab).as('alias')
+                    // cy.get('@alias').trigger('mouseover');
+                    // cy.get('@alias').next().should('have.attr', 'aria-hidden', 'false')
 
                     cy.get(tab).then((element) => {
                     cy.get(element).trigger('mouseover');

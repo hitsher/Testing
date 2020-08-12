@@ -4,7 +4,11 @@ class ExploreSection {
     }
   
     getTitle(){
-        return cy.get('.ho-g-teaser-list').find('.teaser-list__desktop-title');
+        return cy.get('.ho-g-teaser-list').find('h2').invoke('text');
+    }
+
+    getButton(){
+        return cy.get('.teaser-list__title-button').find('.cta');
     }
 
     getCTA(){
