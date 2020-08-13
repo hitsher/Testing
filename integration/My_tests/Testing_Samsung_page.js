@@ -5,14 +5,16 @@ import ExploreSection from '../../support/Explore_Section'
 import GBMSection from '../../support/GBM_Section'
 import SearchSection from '../../support/Search_Section'
 
-
 describe('Check samsung page', function() {
+
+    Cypress.config('baseUrl', 'http://www.samsung.com')
+
 
     context('Basics', () => {
 
         it('open browser and check status', function() {
 
-            cy.visit('https://www.samsung.com/uk/')
+            cy.visit('')
             cy.server().should((server) => {
             expect(server.delay).to.eq(0)
             expect(server.method).to.eq('GET')
@@ -116,14 +118,25 @@ describe('Check samsung page', function() {
     //     cy.visit('https://www.samsung.com/uk')
     // })
 
-    context.skip('GBM area', () => {
+    context('GBM area', () => {
 
         const gbmSection =new GBMSection();
 
         it('check ctas in GBM area', function() {
             gbmSection.getCTA().each(function(element, index){
-                cy.get(element).children().should('have.class','cta');
+                cy.get(element).children().should('have.class','cta')
+                .should('have.attr', 'href')
+                .then((href) => {
+                    cy.log(href)         
+                    cy.request(href)
+                    cy.server().should((server) => {
+                        expect(server.delay).to.eq(0)
+                        expect(server.method).to.eq('GET')
+                        expect(server.status).to.eq(200)
+                    })
+                })
                 cy.log(index);
+
               })
         })
         
@@ -188,19 +201,20 @@ describe('Check samsung page', function() {
             exploreSection.getComponent().should('exist');
         })
 
-        it('check title', function() {
+        it('check title and cta', function() {
 
-            exploreSection.getTitle().should('match', /\w/);
-          //  exploreSection.getButton().
-        //  const href = document.getElementsByClassName("teaser-list__title-button").href 
-        //  cy.log(href);
-        //  cy.log('href');
+            exploreSection.getTitle().should('contain', 'ExploreYourGalaxy.');
 
                 cy.get('.teaser-list__title-button > a')
                 .should('have.attr', 'href')
                 .then((href) => {
                     cy.log(href)         
-                    cy.visit('www.samsung.com'+href)
+                    cy.request(href)
+                    cy.server().should((server) => {
+                        expect(server.delay).to.eq(0)
+                        expect(server.method).to.eq('GET')
+                        expect(server.status).to.eq(200)
+                    })
          })
         })
 
