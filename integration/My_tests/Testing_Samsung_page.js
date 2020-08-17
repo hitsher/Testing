@@ -137,13 +137,18 @@ describe('Check samsung page', function() {
                 })
                 cy.log(index);
 
-              })
+            })
         })
         
        it('check content in GBM area', function() {
             cy.get('.ho-g-key-feature-tab').and('have.length', 3).each(function(element){
+
                 cy.get(element).find('.key-feature-tab__title').invoke('text').should('match', /\w/);
+                cy.get(element).find('.key-feature-tab__title').invoke('text').its('length').should('to.be.lessThan', 24);
+
                 cy.get(element).find('.key-feature-tab__headline-inner').invoke('text').should('match', /\w/);
+                cy.get(element).find('.key-feature-tab__headline-inner').invoke('text').its('length').should('to.be.lessThan', 100);
+
                 const image = cy.get(element).find('.image')
                 image.should('be.visible');
         
@@ -205,17 +210,17 @@ describe('Check samsung page', function() {
 
             exploreSection.getTitle().should('contain', 'ExploreYourGalaxy.');
 
-                cy.get('.teaser-list__title-button > a')
-                .should('have.attr', 'href')
-                .then((href) => {
-                    cy.log(href)         
-                    cy.request(href)
-                    cy.server().should((server) => {
-                        expect(server.delay).to.eq(0)
-                        expect(server.method).to.eq('GET')
-                        expect(server.status).to.eq(200)
-                    })
-         })
+            cy.get('.teaser-list__title-button > a')
+            .should('have.attr', 'href')
+            .then((href) => {
+                cy.log(href)         
+                cy.request(href)
+                cy.server().should((server) => {
+                    expect(server.delay).to.eq(0)
+                    expect(server.method).to.eq('GET')
+                    expect(server.status).to.eq(200)
+                })
+            })
         })
 
         it('check tabs', function() {
@@ -228,7 +233,18 @@ describe('Check samsung page', function() {
 
                     cy.get(tab).then((element) => {
                     cy.get(element).trigger('mouseover');
-                    cy.get(element).next().should('have.attr', 'aria-hidden', 'false')
+                    cy.get(element).next().should('have.attr', 'aria-hidden', 'false').and('be.visible')
+                    cy.get(element).find('.cta')
+                    .should('have.attr', 'href')
+                    .then((href) => {
+                        cy.log(href)         
+                        cy.request(href)
+                        cy.server().should((server) => {
+                            expect(server.delay).to.eq(0)
+                            expect(server.method).to.eq('GET')
+                            expect(server.status).to.eq(200)
+                        })
+                    })
                     })
                 }) 
             }) 
