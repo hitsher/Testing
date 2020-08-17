@@ -19,8 +19,7 @@ describe('Check samsung page', function() {
             expect(server.delay).to.eq(0)
             expect(server.method).to.eq('GET')
             expect(server.status).to.eq(200)
-            cy.visit('https://www.samsung.com/uk/')
-
+            cy.visit('')
             })
         })
 
@@ -50,7 +49,7 @@ describe('Check samsung page', function() {
 
         it('check if Offer area exist', function() {
             offerSection.getComponent().should('exist').and('have.length', 1);
-                })
+            })
          
         it('check tab title', function() {
             offerSection.getTitle().each(function(li){
