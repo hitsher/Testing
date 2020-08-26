@@ -14,12 +14,12 @@ describe('Check samsung page', function() {
 
         it('open browser and check status', function() {
 
-            cy.visit('')
+            cy.visit('http://www.samsung.com/uk/')
             cy.server().should((server) => {
             expect(server.delay).to.eq(0)
             expect(server.method).to.eq('GET')
             expect(server.status).to.eq(200)
-            cy.visit('')
+           // cy.visit('http://www.samsung.com/uk/')
             })
         })
 
@@ -43,7 +43,36 @@ describe('Check samsung page', function() {
         })
     })
 
-    context.skip('Offer area', () => {
+    context('KV area', () => {
+
+       // const offerSection=new OfferSection();
+
+        it('check if Offer area exist', function() {
+            cy.get('.home-kv-carousel').should('exist').and('have.length', 1);
+            })
+         
+        it('check tab title', function() {
+            cy.get('.home-kv-carousel__headline').each(function(li){
+
+                const text = li.text()
+                expect(text).to.match(/\w/);    
+            })
+        })
+        
+        // it('check content tab title', function() {
+        //     offerSection.getProductsName().each(function(span){
+        //         const text = span.text()
+        //         expect(text).to.match(/\w/);          
+        //     }) 
+        // }) 
+        
+        it('check images', function() {
+            const image = cy.get('.home-kv-carousel').find('img')
+                    image.should('be.visible');
+        })
+    })
+    
+    context('Offer area', () => {
 
         const offerSection=new OfferSection();
 
@@ -74,7 +103,7 @@ describe('Check samsung page', function() {
         })
     })
 
-    context.skip('Banner area', () => {
+    context('Banner area', () => {
 
         const covid_Banner=new COVID_Banner();
 
