@@ -88,7 +88,7 @@ describe('Check samsung page', function() {
 
         it('check cta', function() {
             cy.get('.notice__cta').find('.cta')
-                .should('have.attr', 'title', 'LEARN MORE')
+                .should('have.attr', 'title', 'Open in a new window :  ')
                 .and('have.attr', 'href', '/uk/covid-19-update/')
             })
             
@@ -108,21 +108,11 @@ describe('Check samsung page', function() {
         })
     })
 
-        // it('check broken links', function() {
-    //     cy.get( '[an-la ="product marketing:im:galaxy z flip:galaxy z flip:learn more"]').click()
-    //     cy.server().should((server) => {
-    //         expect(server.delay).to.eq(0)
-    //         expect(server.method).to.eq('GET')
-    //         expect(server.status).to.eq(200)
-    //     })
-    //     cy.visit('https://www.samsung.com/uk')
-    // })
-
     context('GBM area', () => {
 
         const gbmSection =new GBMSection();
 
-        it('check ctas in GBM area', function() {
+        it.skip('check ctas in GBM area', function() {
             gbmSection.getCTA().each(function(element, index){
                 cy.get(element).children().should('have.class','cta')
                 .should('have.attr', 'href')
@@ -141,23 +131,48 @@ describe('Check samsung page', function() {
         })
         
        it('check content in GBM area', function() {
-            cy.get('.ho-g-key-feature-tab').and('have.length', 3).each(function(element){
+            cy.get('.ho-g-key-feature-tab').and('have.length', 3).each(function(tab){
 
-                cy.get(element).find('.key-feature-tab__title').invoke('text').should('match', /\w/);
-                cy.get(element).find('.key-feature-tab__title').invoke('text').its('length').should('to.be.lessThan', 24);
+                cy.get(tab).find('.key-feature-tab__title').invoke('text')
+                .should('match', /\w/)
+                .its('length').should('to.be.lessThan', 24);
 
-                cy.get(element).find('.key-feature-tab__headline-inner').invoke('text').should('match', /\w/);
-                cy.get(element).find('.key-feature-tab__headline-inner').invoke('text').its('length').should('to.be.lessThan', 100);
-
-                const image = cy.get(element).find('.image')
+                const image = cy.get(tab).find('.image')
                 image.should('be.visible');
         
-                cy.get(element).find('.tab__item').each(function(li){
-                    const text = li.find('.tab__item-title').text()
-                    cy.log(text);
-                    expect(text).to.match(/\w/);    
+                cy.get(tab).find('.tab__item').each(function(li){
+                    cy.get(li).find('.tab__item-title').invoke('text').should('match', /\w/);
+                   // cy.log(text);
+                    //expect(text).to.match(/\w/);   
+                    cy.get(element).find('.cta').each(function(CTA){
+                        cy.get(CTA)
+                        .should('have.attr', 'href')
+                        .then((href) => {
+                            cy.log(href)         
+                            cy.request(href)
+                            cy.server().should((server) => {
+                                expect(server.delay).to.eq(0)
+                                expect(server.method).to.eq('GET')
+                                expect(server.status).to.eq(200)
+                            })
+                        })        
+                    })
                     cy.get(li).find('button').dblclick().wait(500);
                     cy.get(li).should('have.class', 'tab__item--active'); 
+
+                    // cy.get(tab).find('.cta').each(function(CTA){
+                    //     cy.get(CTA)
+                    //     .should('have.attr', 'href')
+                    //     .then((href) => {
+                    //         cy.log(href)         
+                    //         cy.request(href)
+                    //         cy.server().should((server) => {
+                    //             expect(server.delay).to.eq(0)
+                    //             expect(server.method).to.eq('GET')
+                    //             expect(server.status).to.eq(200)
+                    //         })
+                    //     })        
+                    // })
                 })
             })
         })
@@ -225,7 +240,7 @@ describe('Check samsung page', function() {
 
         it('check tabs', function() {
             
-            exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 3).each(function(tab){
+            exploreSection.getComponent().find('.teaser-list__list-item').and('have.length', 4).each(function(tab){
 
                     // cy.get(tab).as('alias')
                     // cy.get('@alias').trigger('mouseover');
