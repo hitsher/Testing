@@ -39,18 +39,16 @@ describe('Check samsung page', function() {
 
             const image = cy.get('.image')
                 image.should('be.visible');
-              //  image.should('have.attr', 'data-mobile-src', /images.samsung/)
-               // expect(image).to.have.attr('alt', /\w/);
         })
     })
 
-    context.skip('Offer area', () => {
+    context('Offer area', () => {
 
         const offerSection=new OfferSection();
 
         it('check if Offer area exist', function() {
             offerSection.getComponent().should('exist').and('have.length', 1);
-                })
+            })
          
         it('check tab title', function() {
             offerSection.getTitle().each(function(li){
@@ -73,9 +71,10 @@ describe('Check samsung page', function() {
             const image = cy.get('.ho-g-showcase-card-tab').find('img')
                     image.should('be.visible');
         })
+        
     })
 
-    context.skip('Banner area', () => {
+    context('Banner area', () => {
 
         const covid_Banner=new COVID_Banner();
 
@@ -112,7 +111,7 @@ describe('Check samsung page', function() {
 
         const gbmSection =new GBMSection();
 
-        it.skip('check ctas in GBM area', function() {
+        it('check ctas in GBM area', function() {
             gbmSection.getCTA().each(function(element, index){
                 cy.get(element).children().should('have.class','cta')
                 .should('have.attr', 'href')
@@ -141,38 +140,8 @@ describe('Check samsung page', function() {
                 image.should('be.visible');
         
                 cy.get(tab).find('.tab__item').each(function(li){
-                    cy.get(li).find('.tab__item-title').invoke('text').should('match', /\w/);
-                   // cy.log(text);
-                    //expect(text).to.match(/\w/);   
-                    cy.get(element).find('.cta').each(function(CTA){
-                        cy.get(CTA)
-                        .should('have.attr', 'href')
-                        .then((href) => {
-                            cy.log(href)         
-                            cy.request(href)
-                            cy.server().should((server) => {
-                                expect(server.delay).to.eq(0)
-                                expect(server.method).to.eq('GET')
-                                expect(server.status).to.eq(200)
-                            })
-                        })        
-                    })
                     cy.get(li).find('button').dblclick().wait(500);
                     cy.get(li).should('have.class', 'tab__item--active'); 
-
-                    // cy.get(tab).find('.cta').each(function(CTA){
-                    //     cy.get(CTA)
-                    //     .should('have.attr', 'href')
-                    //     .then((href) => {
-                    //         cy.log(href)         
-                    //         cy.request(href)
-                    //         cy.server().should((server) => {
-                    //             expect(server.delay).to.eq(0)
-                    //             expect(server.method).to.eq('GET')
-                    //             expect(server.status).to.eq(200)
-                    //         })
-                    //     })        
-                    // })
                 })
             })
         })
@@ -196,20 +165,6 @@ describe('Check samsung page', function() {
                 .clear()
                 .should('have.value', '')
         })
-
-        // it('check search page', function() {
-        //     searchSection.getInput()
-        //         .type('Samsung{enter}')
-        //     searchSection.getComponent().find('form').submit({force: true})
-        //     cy.server().should((server) => {
-        //         expect(server.delay).to.eq(0)
-        //         expect(server.method).to.eq('GET')
-        //         expect(server.status).to.eq(200)
-        //     })
-        //     cy.title().should('eq', 'Search | Samsung UK' )
-
-        //     cy.go('back')
-        // })
     })
 
     context('Explore area', () => {
